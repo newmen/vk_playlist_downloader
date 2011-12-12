@@ -6,6 +6,7 @@ require 'yaml'
 module VkPlaylist
   class Config
     APP_ID = 2715094
+    CONFIG_FILE = 'config.yml'
 
     class_eval do
       [:app_id, :email, :password, :user_id, :save_dir].each do |m|
@@ -15,16 +16,30 @@ module VkPlaylist
       end
     end
 
+    class_eval do
+      [:start, :stop].each do |m|
+        define_method("#{m}_track") do
+          border_track(m.to_s)
+        end
+      end
+    end
+
     def initialize
-      if File.exist?(config_file = 'config.yml')
-        yaml_config = YAML::load(File.open(config_file))
+      if File.exist?(CONFIG_FILE)
+        yaml_config = YAML::load(File.open(CONFIG_FILE))
         @config = yaml_config['vk']
       else
-        STDERR << "Конфигурационный файл #{config_file} не найден!\n"
+        STDERR << "Конфигурационный файл #{CONFIG_FILE} не найден!\n"
         @config = {}
       end
 
       @config['app_id'] = APP_ID unless @config['app_id']
+    end
+
+    def except_artists
+      ea = @config['except_artists']
+      return nil if !ea || ea == '' || ea.empty?
+      ea
     end
 
     private
@@ -40,6 +55,15 @@ module VkPlaylist
       else
         @config[thing] = ask(thing)
       end
+    end
+
+    def border_track(thing)
+      return unless @config[thing]
+      unless @config[thing]['artist'] && @config[thing]['title']
+        STDERR << "Неправильно указан параметр #{thing} в конфигурационном файле. Нужно в нём указывать artist и title."
+        exit!
+      end
+      @config[thing]
     end
   end
 

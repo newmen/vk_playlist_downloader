@@ -1,6 +1,13 @@
 vk:
-  app_id: 2715094
+  #app_id: 2715094
   email: 'altermn@gmail.com'
-  password: 'afrekmntn9'
+  password: '?'
   user_id: '4209321'
+  except_artists: ['The Beatles', 'Avril Lavigne']
   save_dir: '/home/newmen/vk_playlist'
+#  start:
+#    artist: 'Chew Lips'
+#    title: 'Karen'
+#  stop:
+#    artist: 'Scooter'
+#    title: 'Fire'

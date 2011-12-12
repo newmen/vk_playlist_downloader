@@ -16,17 +16,23 @@ module VkPlaylist
         end
       end
       @save_dir = save_dir
-      @tracks = {}
     end
 
     def saved_tracks
+      all_tracks = []
+      artists = Dir.entries(@save_dir) - ['.', '..']
+      artists.each do |artist|
+        inner_tracks = Dir.entries("#@save_dir/#{artist}") - ['.', '..']
+        inner_tracks.each do |inner_track|
+          title = inner_track.split("#{artist} - ")[1].split(/\.\w+$/)[0]
+          all_tracks << [artist, title]
+        end
+      end
 
+      all_tracks
     end
 
     def save_track(artist, title, file_path)
-      artist.strip!
-      title.strip!
-
       artist_dir = "#@save_dir/#{artist}"
       if !Dir.exist?(artist_dir)
         begin
