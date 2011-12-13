@@ -1,4 +1,7 @@
+#!/usr/bin/env ruby
 # coding: utf-8
+
+require 'rubygems'
 
 LIB_PATH = File.dirname(__FILE__) + '/lib'
 libs = Dir.entries(LIB_PATH) - ['.', '..']

@@ -1,6 +1,5 @@
 # coding: utf-8
 
-require 'rubygems'
 require 'vk-console'
 
 module VkPlaylist
