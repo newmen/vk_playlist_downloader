@@ -4,8 +4,8 @@ vk:
   password: '?'
   user_id: '4209321'
 #  only_artists: ['Infected MushroOm', 'Unmorph']
-  except_artists: ['The Beatles', 'Avril Lavigne']
-  save_dir: '/home/newmen/vk_playlist'
+  except_artists: ['The Beatles', 'Avril Lavigne', 'Король и Шут']
+  save_dir: '/supply/Музыка/vk_playlist'
 #  start:
 #    artist: 'Chew Lips'
 #    title: 'Karen'
