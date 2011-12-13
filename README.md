@@ -32,5 +32,6 @@
 
 ## Гемы необходимые для работы кода
 - active_support
+- json
 - vk-console
 
