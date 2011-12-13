@@ -21,7 +21,7 @@ module VkPlaylist
     def saved_tracks
       all_tracks = []
       artists.each do |artist|
-        artist_regexp = artist.gsub(/([\.\?\*\[\]\(\)\\])/) { '\\' + $1 }
+        artist_regexp = artist.gsub(/([\.\?\*\[\]\(\)\\\/])/) { '\\' + $1 }
         inner_tracks = Dir.entries("#@save_dir/#{artist}") - ['.', '..']
         inner_tracks.each do |inner_track|
           title = inner_track.split(/#{artist_regexp} - /i)[1].split(/\.\w+$/)[0]
