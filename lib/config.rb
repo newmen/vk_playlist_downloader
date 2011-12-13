@@ -65,7 +65,7 @@ module VkPlaylist
         exit!
       end
       @config[thing].each do |key, value|
-        @config[thing][key] = PlaylistString.new(value)
+        @config[thing][key] = PlaylistString.new(value.squeeze(' '))
       end
     end
 
@@ -73,7 +73,7 @@ module VkPlaylist
       artists = @config[thing]
       return nil if !artists || artists == '' || artists.empty?
       artists = [artists] if artists.is_a?(String)
-      artists.map { |artist| PlaylistString.new(artist) }
+      artists.map { |artist| PlaylistString.new(artist.squeeze(' ')) }
     end
   end
 
