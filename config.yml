@@ -3,6 +3,7 @@ vk:
   email: 'altermn@gmail.com'
   password: '?'
   user_id: '4209321'
+  only_artists: ['Infected MushroOm', 'Unmorph']
   except_artists: ['The Beatles', 'Avril Lavigne']
   save_dir: '/home/newmen/vk_playlist'
 #  start:

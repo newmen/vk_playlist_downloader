@@ -24,6 +24,14 @@ module VkPlaylist
       end
     end
 
+    class_eval do
+      [:only, :except].each do |m|
+        define_method("#{m}_artists") do
+          artists_option("#{m}_artists")
+        end
+      end
+    end
+
     def initialize
       if File.exist?(CONFIG_FILE)
         yaml_config = YAML::load(File.open(CONFIG_FILE))
@@ -34,12 +42,6 @@ module VkPlaylist
       end
 
       @config['app_id'] = APP_ID unless @config['app_id']
-    end
-
-    def except_artists
-      ea = @config['except_artists']
-      return nil if !ea || ea == '' || ea.empty?
-      ea
     end
 
     private
@@ -63,7 +65,16 @@ module VkPlaylist
         STDERR << "Неправильно указан параметр #{thing} в конфигурационном файле. Нужно в нём указывать artist и title."
         exit!
       end
-      @config[thing]
+      @config[thing].each do |key, value|
+        @config[thing][key] = PlaylistString.new(value)
+      end
+    end
+
+    def artists_option(thing)
+      artists = @config[thing]
+      return nil if !artists || artists == '' || artists.empty?
+      artists = [artists] if artists.is_a?(String)
+      artists.map { |artist| PlaylistString.new(artist) }
     end
   end
 

@@ -11,7 +11,7 @@ module VkPlaylist
 
     def initialize(logger)
       @logger = logger
-      @session = Session.instance
+      @session = Session.new
       @saver = FileSaver.new(@session.save_dir)
     end
 

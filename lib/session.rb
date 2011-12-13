@@ -1,19 +1,16 @@
 # coding: utf-8
 
-require 'singleton'
 require 'rubygems'
 require 'vk-console'
 
 module VkPlaylist
   class Session
-    include Singleton
-
     def self.rebuild(string)
       new_str = string.strip
       new_str.gsub!('&amp;', '&')
       new_str.gsub!('&quot;', '"')
       new_str.gsub!('&#39;', "'")
-      new_str
+      PlaylistString.new(new_str)
     end
 
     attr_reader :total_tracks
@@ -78,10 +75,15 @@ module VkPlaylist
     end
 
     def filter_artists(tracks)
-      return tracks unless @config.except_artists
-      tracks.select do |track|
+      tracks = tracks.select do |track|
+        @config.only_artists.index(track['artist'])
+      end if @config.only_artists
+
+      tracks = tracks.select do |track|
         !@config.except_artists.index(track['artist'])
-      end
+      end if @config.except_artists
+
+      tracks
     end
 
   end

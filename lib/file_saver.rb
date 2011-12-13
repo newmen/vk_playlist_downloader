@@ -20,12 +20,11 @@ module VkPlaylist
 
     def saved_tracks
       all_tracks = []
-      artists = Dir.entries(@save_dir) - ['.', '..']
       artists.each do |artist|
         inner_tracks = Dir.entries("#@save_dir/#{artist}") - ['.', '..']
         inner_tracks.each do |inner_track|
           title = inner_track.split("#{artist} - ")[1].split(/\.\w+$/)[0]
-          all_tracks << [artist, title]
+          all_tracks << [PlaylistString.new(artist), PlaylistString.new(title)]
         end
       end
 
@@ -33,18 +32,31 @@ module VkPlaylist
     end
 
     def save_track(artist, title, file_path)
-      artist_dir = "#@save_dir/#{artist}"
-      if !Dir.exist?(artist_dir)
+      curr_dir = artist_dir(artist)
+      if !curr_dir
+        curr_dir = "#@save_dir/#{artist}"
         begin
-          Dir.mkdir(artist_dir)
+          Dir.mkdir(curr_dir)
         rescue SystemCallError
-          STDERR << "Невозможно создать директорию #{artist_dir}\n"
+          STDERR << "Невозможно создать директорию #{curr_dir}\n"
           raise
         end
       end
 
       ext = File.extname(file_path)
-      FileUtils.mv(file_path, "#{artist_dir}/#{artist} - #{title}#{ext}")
+      FileUtils.mv(file_path, "#{curr_dir}/#{artist} - #{title}#{ext}")
+    end
+
+    private
+
+    def artists
+      (Dir.entries(@save_dir) - ['.', '..']).map { |artist| PlaylistString.new(artist) }
+    end
+
+    def artist_dir(artist)
+      exist_artists = artists
+      i = exist_artists.index(artist)
+      i ? "#@save_dir/#{exist_artists[i]}" : nil
     end
   end
 
