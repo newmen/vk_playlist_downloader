@@ -5,7 +5,7 @@ require 'fileutils'
 module VkPlaylist
   class FileSaver
     def initialize(save_dir)
-      if !Dir.exist?(save_dir)
+      if !File.directory?(save_dir)
         STDERR << "Директория #{save_dir} не существует! Попытка создать директорию #{save_dir}...\n"
         begin
           FileUtils.mkdir_p(save_dir)
