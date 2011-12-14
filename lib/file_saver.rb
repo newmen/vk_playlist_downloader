@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require 'fileutils'
+require 'mp3info'
 
 module VkPlaylist
   class FileSaver
@@ -33,6 +34,8 @@ module VkPlaylist
     end
 
     def save_track(artist, title, file_path)
+      rename_mp3tags(artist, title, file_path)
+
       curr_dir = artist_dir(artist)
       if !curr_dir
         curr_dir = "#@save_dir/#{artist}"
@@ -58,6 +61,13 @@ module VkPlaylist
       exist_artists = artists
       i = exist_artists.index(artist)
       i ? "#@save_dir/#{exist_artists[i]}" : nil
+    end
+
+    def rename_mp3tags(artist, title, file_path)
+      Mp3Info.open(file_path) do |mp3|
+        mp3.tag.artist = artist
+        mp3.tag.title = title
+      end
     end
   end
 

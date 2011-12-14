@@ -35,5 +35,6 @@
 ## Гемы необходимые для работы кода
 - active_support
 - json
+- ruby-mp3info
 - vk-console
 
