@@ -16,13 +16,13 @@ module VkPlaylist
 
     attr_reader :total_tracks
 
-    def initialize
-      @config = Config.new
+    def initialize(config)
+      @config = config
       begin
         console = VK::Console.new(:app_id => @config.app_id,
-                                   :email => @config.email,
-                                   :password => @config.password,
-                                   :scope => 'notify,audio')
+                                  :email => @config.email,
+                                  :password => @config.password,
+                                  :scope => 'notify,audio')
       rescue
         STDERR << "Произошла ошибка при подключению к ВКонтакту\n"
         exit!

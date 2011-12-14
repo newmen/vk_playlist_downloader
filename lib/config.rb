@@ -5,7 +5,6 @@ require 'yaml'
 module VkPlaylist
   class Config
     APP_ID = 2715094
-    CONFIG_FILE = 'config.yml'
 
     class_eval do
       [:app_id, :email, :password, :user_id, :save_dir].each do |m|
@@ -31,12 +30,12 @@ module VkPlaylist
       end
     end
 
-    def initialize
-      if File.exist?(CONFIG_FILE)
-        yaml_config = YAML::load(File.open(CONFIG_FILE))
+    def initialize(config_file_name)
+      if File.exist?(config_file_name)
+        yaml_config = YAML::load(File.open(config_file_name))
         @config = yaml_config['vk']
       else
-        STDERR << "Конфигурационный файл #{CONFIG_FILE} не найден!\n"
+        STDERR << "Конфигурационный файл #{config_file_name} не найден!\n"
         @config = {}
       end
 

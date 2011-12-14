@@ -4,15 +4,16 @@ require 'open-uri'
 
 module VkPlaylist
   class Downloader
-    def self.go(logger = STDOUT)
-      @downloader = Downloader.new(logger)
+    def self.go(config_file_name = 'config.yml', logger = STDOUT)
+      @downloader = Downloader.new(config_file_name, logger)
       @downloader.save_tracks
     end
 
-    def initialize(logger)
+    def initialize(config_file_name, logger)
+      @config = Config.new(config_file_name)
       @logger = logger
-      @session = Session.new
-      @saver = FileSaver.new(@session.save_dir)
+      @saver = FileSaver.new(@config.save_dir)
+      @session = Session.new(@config)
     end
 
     def save_tracks

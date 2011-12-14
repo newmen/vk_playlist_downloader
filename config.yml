@@ -1,10 +1,10 @@
 vk:
-  #app_id: 2715094
+#  app_id: 2462
   email: 'altermn@gmail.com'
   password: '?'
   user_id: '4209321'
 #  only_artists: ['Infected MushroOm', 'Unmorph']
-  except_artists: ['The Beatles', 'Avril Lavigne', 'Король и Шут']
+#  except_artists: ['Avril Lavigne']
   save_dir: '/supply/Музыка/vk_playlist'
 #  start:
 #    artist: 'Chew Lips'
