@@ -53,7 +53,7 @@ module VkPlaylist
         artist_regexp = artist.gsub(/([\.\?\*\+\-\|\[\]\{\}\(\)\\\/\^\$])/) { '\\' + $1 }
         inner_tracks = Dir.entries("#@save_dir/#{artist}") - ['.', '..']
         inner_tracks.each do |inner_track|
-          title = inner_track.split(/#{artist_regexp} - /i)[1].split(/\.\w+$/)[0]
+          title = inner_track.split(/#{artist_regexp} \- /i)[1].split(/\.\w+$/)[0]
           all_tracks << [PlaylistString.new(artist), PlaylistString.new(title)]
         end
       end
