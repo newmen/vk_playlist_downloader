@@ -19,20 +19,6 @@ module VkPlaylist
       @save_dir = save_dir
     end
 
-    def saved_tracks
-      all_tracks = []
-      artists.each do |artist|
-        artist_regexp = artist.gsub(/([\.\?\*\[\]\{\}\(\)\\\/])/) { '\\' + $1 }
-        inner_tracks = Dir.entries("#@save_dir/#{artist}") - ['.', '..']
-        inner_tracks.each do |inner_track|
-          title = inner_track.split(/#{artist_regexp} - /i)[1].split(/\.\w+$/)[0]
-          all_tracks << [PlaylistString.new(artist), PlaylistString.new(title)]
-        end
-      end
-
-      all_tracks
-    end
-
     def save_track(artist, title, file_path)
       rename_mp3tags(artist, title, file_path)
 
@@ -51,7 +37,29 @@ module VkPlaylist
       FileUtils.mv(file_path, "#{curr_dir}/#{artist} - #{title}#{ext}")
     end
 
+    # проверяет что среди скачиваемых треков, некоторые уже сохранены
+    def except_exist_tracks(tracks)
+      exist_tracks = saved_tracks
+      tracks.select do |track|
+        !(exist_tracks.index([track['artist'], track['title']]))
+      end
+    end
+
     private
+
+    def saved_tracks
+      all_tracks = []
+      artists.each do |artist|
+        artist_regexp = artist.gsub(/([\.\?\*\[\]\{\}\(\)\\\/])/) { '\\' + $1 }
+        inner_tracks = Dir.entries("#@save_dir/#{artist}") - ['.', '..']
+        inner_tracks.each do |inner_track|
+          title = inner_track.split(/#{artist_regexp} - /i)[1].split(/\.\w+$/)[0]
+          all_tracks << [PlaylistString.new(artist), PlaylistString.new(title)]
+        end
+      end
+
+      all_tracks
+    end
 
     def artists
       (Dir.entries(@save_dir) - ['.', '..']).map { |artist| PlaylistString.new(artist) }
@@ -63,7 +71,7 @@ module VkPlaylist
       i ? "#@save_dir/#{exist_artists[i]}" : nil
     end
 
-    def rename_mp3tags(artist, title, file_path)
+    def self.rename_mp3tags(artist, title, file_path)
       Mp3Info.open(file_path) do |mp3|
         mp3.tag.artist = artist
         mp3.tag.title = title

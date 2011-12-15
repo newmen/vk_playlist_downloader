@@ -1,7 +1,7 @@
 # coding: utf-8
 
 def ruby_is_1_9?
-  RUBY_VERSION.split('.')[1].to_i == 9
+  RUBY_VERSION > '1.9'
 end
 
 unless ruby_is_1_9?

@@ -20,11 +20,7 @@ module VkPlaylist
       @logger << "Всего треков в плейлисте: #{@session.total_tracks}\n"
 
       tracks = @session.tracks
-      # проверяем что среди скачиваемых треков, некоторые уже сохранены
-      saved_tracks = @saver.saved_tracks
-      tracks = tracks.select do |track|
-        !(saved_tracks.index([track['artist'], track['title']]))
-      end
+      tracks = @saver.except_exist_tracks(tracks)
 
       @logger << "Будет загружено #{tracks.size} треков\n"
 
