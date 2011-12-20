@@ -20,7 +20,7 @@ module VkPlaylist
     end
 
     def save_track(artist, title, file_path)
-      rename_mp3tags(artist, title, file_path)
+      self.class.rename_mp3tags(artist, title, file_path)
 
       curr_dir = artist_dir(artist)
       if !curr_dir
@@ -41,7 +41,7 @@ module VkPlaylist
     def except_exist_tracks(tracks)
       exist_tracks = saved_tracks
       tracks.select do |track|
-        !(exist_tracks.index([track['artist'], track['title']]))
+        !exist_tracks.include?([track['artist'], track['title']])
       end
     end
 
@@ -72,7 +72,7 @@ module VkPlaylist
     end
 
     def self.rename_mp3tags(artist, title, file_path)
-      Mp3Info.open(file_path) do |mp3|
+      Mp3Info.open(file_path, :encoding => 'utf-8') do |mp3|
         mp3.tag.artist = artist
         mp3.tag.title = title
       end

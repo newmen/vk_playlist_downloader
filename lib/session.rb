@@ -77,11 +77,11 @@ module VkPlaylist
 
     def filter_artists(tracks)
       tracks = tracks.select do |track|
-        @config.only_artists.index(track['artist'])
+        @config.only_artists.include?(track['artist'])
       end if @config.only_artists
 
       tracks = tracks.select do |track|
-        !@config.except_artists.index(track['artist'])
+        !@config.except_artists.include?(track['artist'])
       end if @config.except_artists
 
       tracks

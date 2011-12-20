@@ -1,11 +1,11 @@
 # coding: utf-8
 
-def ruby_is_1_9?
-  RUBY_VERSION > '1.9'
+def ruby_is_1_9_2?
+  RUBY_VERSION == '1.9.2'
 end
 
-unless ruby_is_1_9?
-  STDERR << "Ваша версия Ruby не позволяет обрабатывать разный регистр русских букв. Обновите Ruby до версии не ниже 1.9.2\n"
+unless ruby_is_1_9_2?
+  STDERR << "Ваша версия Ruby не позволяет обрабатывать разный регистр русских букв. Обновите Ruby до версии 1.9.2\n"
   exit!
 end
 
