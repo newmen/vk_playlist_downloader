@@ -36,10 +36,6 @@ module VkPlaylist
       @total_tracks = @all_tracks.size
     end
 
-    def save_dir
-      @config.save_dir
-    end
-
     def tracks
       @all_tracks = filter_start_stop(@all_tracks)
       @all_tracks = filter_artists(@all_tracks)
