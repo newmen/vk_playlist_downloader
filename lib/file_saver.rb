@@ -72,7 +72,7 @@ module VkPlaylist
     end
 
     def self.rename_mp3tags(artist, title, file_path)
-      Mp3Info.open(file_path, :encoding => 'utf-8') do |mp3|
+      Mp3Info.open(file_path, encoding: 'utf-8') do |mp3|
         mp3.tag.artist = artist
         mp3.tag.title = title
       end

@@ -19,16 +19,16 @@ module VkPlaylist
     def initialize(config)
       @config = config
       begin
-        console = VK::Console.new(:app_id => @config.app_id,
-                                  :email => @config.email,
-                                  :password => @config.password,
-                                  :scope => 'notify,audio')
+        console = VK::Console.new(app_id: @config.app_id,
+                                  email: @config.email,
+                                  password: @config.password,
+                                  settings: 'notify,audio')
       rescue
         STDERR << "Произошла ошибка при подключению к ВКонтакту\n"
         exit!
       end
 
-      @all_tracks = console.audio.get(:uid => @config.user_id).map do |track|
+      @all_tracks = console.audio.get(uid: @config.user_id).map do |track|
         track['artist'] = self.class.rebuild(track['artist'])
         track['title'] = self.class.rebuild(track['title'])
         track
