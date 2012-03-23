@@ -9,6 +9,7 @@ module VkPlaylist
       new_str.gsub!('&amp;', '&')
       new_str.gsub!('&quot;', '"')
       new_str.gsub!('&#39;', "'")
+      new_str.gsub!('&#33;', "!")
       new_str.gsub!(/[\\\/]/, '')
       new_str.squeeze!(' ')
       PlaylistString.new(new_str)
